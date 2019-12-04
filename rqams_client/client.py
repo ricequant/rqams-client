@@ -18,7 +18,7 @@ from functools import wraps
 from urllib.parse import urljoin
 
 import requests
-from logbook import Logger, DEBUG
+from logbook import Logger, DEBUG, INFO
 
 from .cls import DictProxy
 from .models import AssetUnit, Account, Broker
@@ -48,8 +48,7 @@ class RQAMSClient:
         self._server_url = urljoin(server_url, "/api/rqams_open/v1")
         self._requests_timeout = requests_timeout
         self._logger = logger or Logger("RQAMS_CLIENT")
-        if debug:
-            self._logger.level = DEBUG
+        self._logger.level = DEBUG if debug else INFO
 
         self._username = username
         if sid:
