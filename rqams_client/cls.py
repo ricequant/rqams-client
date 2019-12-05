@@ -15,7 +15,7 @@
 
 from collections import OrderedDict
 from enum import Enum
-from typing import Mapping, Optional, Callable, TypeVar, MutableMapping, Sequence, Any, List
+from typing import Mapping, Optional, Callable, TypeVar, MutableMapping, Sequence, Any, List, Iterator
 from datetime import date, datetime
 from dateutil.parser import parse
 
@@ -49,13 +49,13 @@ class DictProxy(MutableMapping[_KT, _VT]):
             raise TypeError(f"{self.__class__.__name__} object dose not support item getting")
         return self._get_func()
 
-    def __getitem__(self, item: _VT):
+    def __getitem__(self, item: _KT) -> _VT:
         return self._get()[item]
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self._get())
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator[_KT]:
         return iter(self._get())
 
     def __setitem__(self, key: _KT, value: _VT):
