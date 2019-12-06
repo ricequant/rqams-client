@@ -42,7 +42,7 @@ def retry(times: int = 3, error: Type[Exception] = Exception):
 
 class RQAMSClient:
     def __init__(
-        self, username: str = None, password: str = None, sid: str = None,
+        self, username: str = None, password: str = None, remember_me: bool = False, sid: str = None,
         server_url: str = "https://www.ricequant.com", debug=False, requests_timeout: int = 10, logger=None
     ):
         self._server_url = urljoin(server_url, "/api/rqams_open/v1")
@@ -54,7 +54,9 @@ class RQAMSClient:
         if sid:
             self._sid = sid
         else:
-            rsp = self.req("POST", "/login", need_logged_in=False, json={"username": username, "password": password})
+            rsp = self.req("POST", "/login", need_logged_in=False, json={
+                "username": username, "password": password, "remember_me": remember_me
+            })
             self._sid = rsp.cookies["sid"]
             self._user_id = rsp.json()["user_id"]
 
